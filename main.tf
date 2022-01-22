@@ -24,7 +24,6 @@ provider "proxmox" {
 Поменять name
 Задать ip в ipconfig0
 
-!!! Не забывать делать pull до изменения и push - после !!!
 */
 
 

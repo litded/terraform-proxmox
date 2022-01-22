@@ -1,4 +1,7 @@
-** Подготовка proxmox: **
+# Terraform Proxmox
+
+
+**Подготовка proxmox:**
 
 Create the user
 ```
@@ -68,7 +71,7 @@ qm template 9000
 ```
 
 
-** Подготовка proxmox: **
+**Terraform add vm:**
 
 Взять пример из resourse-template
 
