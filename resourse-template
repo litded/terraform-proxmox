@@ -1,0 +1,48 @@
+
+Убрать count или задать нужное число копий,
+но тогда в name и ipconfig0 добавьте переменную ${count.index + 1} 
+
+Поменять имя "pveX-tf-vm-XX"
+Поменять name
+Задать ip в ipconfig0
+
+>> pve vm <<
+
+resource "proxmox_vm_qemu" "pve0-tf-vm-00"! {
+  count             = 0!
+  name              = "pve-template"!
+  target_node       = "pve"
+  clone             = "debian-cloudinit0"
+  onboot             = true
+  os_type           = "cloud-init"
+  agent             = 1
+  cores             = 2
+  sockets           = "1"
+  cpu               = "host"
+  memory            = 2048
+  scsihw            = "virtio-scsi-pci"
+  bootdisk          = "scsi0"
+  desc              = "Debian 10 cloud image"
+  disk {
+      size            = "20G"
+      type            = "scsi"
+      discard         = "on"
+      storage         = "ds0"
+      iothread        = 0
+    }
+  network {
+      model           = "virtio"
+      bridge          = "vmbr0"
+    }
+  lifecycle {
+      ignore_changes  = [
+        network,
+      ]
+    }
+# Cloud Init Settings
+  nameserver = "8.8.8.8"
+  ipconfig0 = "ip=192.168.0.<>/20,gw=192.168.0.1"!
+  sshkeys = <<EOF
+    ${var.ssh_key}
+    EOF
+  }
